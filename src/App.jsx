@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Home from './pages/Home';
@@ -5,19 +6,42 @@ import AppsHistory from './pages/AppsHistory';
 import Analytics from './pages/Analytics';
 import ReviewQueue from './pages/ReviewQueue';
 import UpdateCenter from './pages/UpdateCenter';
+import SetupWizard from './pages/SetupWizard';
 
 function App() {
+  const [collapsed, setCollapsed] = useState(false);
+
+  useEffect(() => {
+    // Load collapsed state from localStorage
+    const saved = localStorage.getItem('sidebar-collapsed');
+    if (saved !== null) {
+      setCollapsed(JSON.parse(saved));
+    }
+  }, []);
+
+  const handleToggle = (newCollapsed) => {
+    setCollapsed(newCollapsed);
+    localStorage.setItem('sidebar-collapsed', JSON.stringify(newCollapsed));
+  };
+
   return (
     <Router>
       <div className="flex min-h-screen bg-[#0f0f0f]">
-        <Sidebar />
-        <main className="flex-1 ml-64">
+        <Sidebar collapsed={collapsed} setCollapsed={handleToggle} />
+        <main 
+          className="flex-1 transition-all duration-300 overflow-x-hidden"
+          style={{ 
+            marginLeft: collapsed ? '5rem' : '16rem',
+            minWidth: collapsed ? 'calc(100% - 5rem)' : 'calc(100% - 16rem)'
+          }}
+        >
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/apps" element={<AppsHistory />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/review" element={<ReviewQueue />} />
             <Route path="/update" element={<UpdateCenter />} />
+            <Route path="/setup" element={<SetupWizard />} />
           </Routes>
         </main>
       </div>
