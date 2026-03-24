@@ -26,4 +26,4 @@ npm run dev
 
 ## Deployment
 
-Push to main branch to deploy to GitHub Pages automatically.
+Push to main branch to deploy to GitHub Pages automatically.# Force rebuild
