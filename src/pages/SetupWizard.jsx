@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { CheckCircle, XCircle, AlertCircle, Loader, Play, Shield, Key, Database, FileText, Code, ExternalLink, Upload, Copy, RefreshCw, ChevronRight, ChevronDown, Users, BarChart3, DollarSign, Lock } from 'lucide-react';
+import { CheckCircle, XCircle, AlertCircle, Loader, Play, Shield, Key, Database, FileText, Code, ExternalLink, Upload, Copy, RefreshCw, ChevronRight, ChevronDown, Users, BarChart3, DollarSign, Lock, Rocket, Sparkles } from 'lucide-react';
 
 const SetupWizard = () => {
   const [currentPhase, setCurrentPhase] = useState(0);
@@ -11,35 +11,28 @@ const SetupWizard = () => {
     { id: 5, name: 'Final Verification', status: 'completed', completed: true, description: 'End-to-end test and final confirmation' },
   ]);
 
-  const [expandedPhase, setExpandedPhase] = useState(5);
+  const [expandedPhase, setExpandedPhase] = useState(null);
 
-  // Firebase Config
-  const firebaseConfig = {
-    projectId: 'baki-d76fe',
-    projectNumber: '923984156352',
-    appId: '1:923984156352:android:9c3e8fe1c3e832f5e8bf25',
-    packageName: 'com.ultraclaw.apps'
-  };
-
-  // AdMob Config
-  const admobConfig = {
-    appId: 'ca-app-pub-1767270019317558~5119562017',
-    bannerAdUnitId: 'ca-app-pub-1767270019317558/4976091781',
-    interstitialAdUnitId: 'ca-app-pub-1767270019317558/4360880662'
-  };
-
-  // Play Console info
-  const playConsoleInfo = {
-    accountId: '5065031898401685118',
-    developerName: 'BaxShop',
-    status: 'Active'
-  };
-
-  // Keystore info
-  const keystoreInfo = {
-    alias: 'ultraclaw',
-    location: '~/ultraclaw.keystore',
-    status: 'Created'
+  // App Idea Data
+  const appIdea = {
+    name: 'AI Image Enhancer',
+    icon: '🖼️',
+    primaryKeyword: 'AI Photo Enhancer',
+    searchVolume: '15,000+/month',
+    difficulty: 'Low-Medium (32/100)',
+    revenue: '$200-500/month',
+    developmentTime: '5-6 days',
+    status: 'Waiting for Confirmation',
+    features: [
+      'AI-powered photo enhancement',
+      'One-tap quality boost',
+      'Blur removal',
+      'Resolution upscaling',
+      'Before/After comparison',
+      'Save & Share functionality',
+      'AdMob integration'
+    ],
+    monetization: 'Free (AdMob) + Premium ($2.99)'
   };
 
   const getStatusIcon = (status) => {
@@ -108,56 +101,87 @@ const SetupWizard = () => {
             {/* Phase Content */}
             {expandedPhase === phase.id && (
               <div className="p-6 border-t border-[#2a2a2a]">
-                {/* All Phases Complete - Final Summary */}
-                {isAllComplete && (
-                  <div className="space-y-4">
-                    <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-xl">
-                      <h4 className="text-green-400 font-medium mb-3 flex items-center gap-2">
+                {isAllComplete && phase.id === 5 && (
+                  <div className="space-y-6">
+                    <div className="text-center py-4">
+                      <div className="w-24 h-24 bg-gradient-to-r from-green-500 via-indigo-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Sparkles className="w-12 h-12 text-white" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-white mb-2">🎉 Setup Complete!</h3>
+                      <p className="text-gray-400 mb-4">UltraClaw is ready to create your first profitable app</p>
+                    </div>
+
+                    {/* App Idea Card */}
+                    <div className="bg-[#252525] rounded-2xl p-6 border border-indigo-500/30">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="text-4xl">{appIdea.icon}</div>
+                          <div>
+                            <h4 className="text-xl font-bold text-white">{appIdea.name}</h4>
+                            <span className="badge-review">{appIdea.status}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                        <div className="bg-[#1a1a1a] rounded-lg p-3">
+                          <p className="text-gray-500 text-xs">Primary Keyword</p>
+                          <p className="text-white font-medium">{appIdea.primaryKeyword}</p>
+                        </div>
+                        <div className="bg-[#1a1a1a] rounded-lg p-3">
+                          <p className="text-gray-500 text-xs">Search Volume</p>
+                          <p className="text-white font-medium">{appIdea.searchVolume}</p>
+                        </div>
+                        <div className="bg-[#1a1a1a] rounded-lg p-3">
+                          <p className="text-gray-500 text-xs">Difficulty</p>
+                          <p className="text-white font-medium">{appIdea.difficulty}</p>
+                        </div>
+                        <div className="bg-[#1a1a1a] rounded-lg p-3">
+                          <p className="text-gray-500 text-xs">Revenue</p>
+                          <p className="text-green-400 font-medium">{appIdea.revenue}</p>
+                        </div>
+                      </div>
+
+                      <div className="mb-4">
+                        <p className="text-gray-400 text-sm mb-2">Key Features:</p>
+                        <div className="flex flex-wrap gap-2">
+                          {appIdea.features.slice(0, 5).map((f, i) => (
+                            <span key={i} className="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-full text-xs">
+                              {f}
+                            </span>
+                          ))}
+                          <span className="px-3 py-1 bg-gray-700 text-gray-400 rounded-full text-xs">
+                            +{appIdea.features.length - 5} more
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between p-4 bg-indigo-500/10 border border-indigo-500/30 rounded-xl">
+                        <div>
+                          <p className="text-white font-medium">Monetization Strategy</p>
+                          <p className="text-gray-400 text-sm">{appIdea.monetization}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-gray-400 text-xs">Development Time</p>
+                          <p className="text-indigo-400 font-medium">{appIdea.developmentTime}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex gap-4">
+                      <button className="flex-1 btn-primary text-lg py-4 flex items-center justify-center gap-2">
                         <CheckCircle className="w-5 h-5" />
-                        Complete System Configuration
-                      </h4>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {/* Firebase */}
-                        <div className="p-3 bg-[#252525] rounded-lg">
-                          <p className="text-gray-400 text-xs">Firebase Project</p>
-                          <p className="text-white font-mono">{firebaseConfig.projectId}</p>
-                        </div>
-                        {/* AdMob */}
-                        <div className="p-3 bg-[#252525] rounded-lg">
-                          <p className="text-gray-400 text-xs">AdMob App ID</p>
-                          <p className="text-white font-mono text-xs">{admobConfig.appId}</p>
-                        </div>
-                        {/* Play Console */}
-                        <div className="p-3 bg-[#252525] rounded-lg">
-                          <p className="text-gray-400 text-xs">Play Console</p>
-                          <p className="text-white font-mono">{playConsoleInfo.developerName} ({playConsoleInfo.accountId})</p>
-                        </div>
-                        {/* Keystore */}
-                        <div className="p-3 bg-[#252525] rounded-lg">
-                          <p className="text-gray-400 text-xs">Android Keystore</p>
-                          <p className="text-white">{keystoreInfo.alias}</p>
-                        </div>
-                      </div>
-
-                      <div className="mt-4 space-y-2">
-                        <p className="text-gray-400 text-xs">Ad Unit IDs:</p>
-                        <code className="block p-2 bg-[#1a1a1a] rounded text-green-400 text-xs">Banner: {admobConfig.bannerAdUnitId}</code>
-                        <code className="block p-2 bg-[#1a1a1a] rounded text-green-400 text-xs">Interstitial: {admobConfig.interstitialAdUnitId}</code>
-                      </div>
+                        Confirm & Start Building
+                      </button>
+                      <button className="px-6 py-4 bg-[#252525] text-gray-400 rounded-xl border border-[#2a2a2a] hover:text-white">
+                        Request Changes
+                      </button>
                     </div>
 
-                    <div className="text-center py-8">
-                      <div className="w-24 h-24 bg-gradient-to-r from-green-500 via-indigo-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
-                        <CheckCircle className="w-12 h-12 text-white" />
-                      </div>
-                      <h3 className="text-3xl font-bold text-white mb-2">🎉 All Systems Ready!</h3>
-                      <p className="text-gray-400 mb-6 text-lg">UltraClaw God-Mode 2026 is fully configured and ready to create profitable Android apps!</p>
-                      
-                      <div className="p-6 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 border border-indigo-500/30 rounded-2xl inline-block">
-                        <p className="text-white font-bold text-xl">🚀 Type START in the chat to begin the first profitable app cycle!</p>
-                      </div>
-                    </div>
+                    <p className="text-center text-gray-500 text-sm">
+                      Type "Confirmed" in chat to proceed, or request modifications to this app idea
+                    </p>
                   </div>
                 )}
               </div>

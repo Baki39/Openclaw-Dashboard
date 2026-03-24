@@ -1,12 +1,21 @@
 import { useState } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { AppWindow, DollarSign, Download, Activity, Plus, Rocket, AlertCircle } from 'lucide-react';
+import { AppWindow, DollarSign, Download, Activity, Plus, Rocket, AlertCircle, CheckCircle, Sparkles } from 'lucide-react';
 import StatCard from '../components/StatCard';
 
 const Home = () => {
   const [timeRange, setTimeRange] = useState('30d');
   
-  // Empty state - no real data yet
+  // Current app idea in progress
+  const currentAppIdea = {
+    name: 'AI Image Enhancer',
+    icon: '🖼️',
+    status: 'Waiting for Confirmation',
+    primaryKeyword: 'AI Photo Enhancer',
+    revenue: '$200-500/month',
+    step: 'Step 1 Complete - Market Research'
+  };
+  
   const hasData = false;
   const stats = {
     totalApps: 0,
@@ -14,7 +23,6 @@ const Home = () => {
     totalDownloads: 0,
     activeApps: 0,
   };
-  const revenueData = [];
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
@@ -36,20 +44,36 @@ const Home = () => {
         <p className="text-gray-400">Monitor your Android apps performance</p>
       </div>
 
-      {/* Empty State or Stats */}
-      {!hasData ? (
-        <div className="text-center py-16">
-          <div className="w-24 h-24 bg-indigo-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Rocket className="w-12 h-12 text-indigo-400" />
+      {/* Current App in Progress */}
+      <div className="bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-2xl p-6 border border-indigo-500/30 mb-8">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-3xl">
+              {currentAppIdea.icon}
+            </div>
+            <div>
+              <p className="text-indigo-400 text-sm font-medium">Current App in Progress</p>
+              <h2 className="text-xl font-bold text-white">{currentAppIdea.name}</h2>
+              <p className="text-gray-400 text-sm">{currentAppIdea.step}</p>
+            </div>
           </div>
-          <h2 className="text-2xl font-bold text-white mb-3">No Apps Yet</h2>
-          <p className="text-gray-400 mb-6 max-w-md mx-auto">
-            Start your first app cycle by typing "START" in the chat. 
-            UltraClaw will find a profitable niche, build the app, and deploy it to Google Play.
-          </p>
+          <div className="text-right">
+            <p className="text-gray-400 text-sm">Primary Keyword</p>
+            <p className="text-white font-medium">{currentAppIdea.primaryKeyword}</p>
+            <p className="text-green-400 font-medium mt-2">{currentAppIdea.revenue}</p>
+          </div>
+        </div>
+        <div className="mt-4 flex items-center gap-2">
+          <span className="badge-review">{currentAppIdea.status}</span>
+        </div>
+      </div>
+
+      {/* Empty State */}
+      {!hasData ? (
+        <div className="text-center py-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-500/20 border border-indigo-500/30 rounded-xl">
             <AlertCircle className="w-4 h-4 text-indigo-400" />
-            <span className="text-indigo-400">Type START to begin</span>
+            <span className="text-indigo-400">Type "Confirmed" to proceed with building this app</span>
           </div>
         </div>
       ) : (
@@ -108,34 +132,6 @@ const Home = () => {
             </div>
             <div className="h-[300px] flex items-center justify-center text-gray-500">
               <p>No revenue data available yet</p>
-            </div>
-          </div>
-
-          {/* Recent Activity */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-[#1e1e1e] rounded-2xl p-6 border border-[#2a2a2a]">
-              <h2 className="text-xl font-bold text-white mb-4">Top Performing Apps</h2>
-              <div className="text-center py-8 text-gray-500">
-                <p>No apps deployed yet</p>
-              </div>
-            </div>
-
-            <div className="bg-[#1e1e1e] rounded-2xl p-6 border border-[#2a2a2a]">
-              <h2 className="text-xl font-bold text-white mb-4">Quick Actions</h2>
-              <div className="space-y-3">
-                <button className="w-full p-4 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-medium text-left flex items-center justify-between hover:opacity-90 transition-opacity">
-                  <span>🚀 Start New App Cycle</span>
-                  <span className="text-sm opacity-80">→</span>
-                </button>
-                <button className="w-full p-4 rounded-xl bg-[#252525] text-white font-medium text-left flex items-center justify-between hover:bg-[#2a2a2a] transition-colors">
-                  <span>📱 Review Pending Apps</span>
-                  <span className="text-sm text-gray-400">0 pending</span>
-                </button>
-                <button className="w-full p-4 rounded-xl bg-[#252525] text-white font-medium text-left flex items-center justify-between hover:bg-[#2a2a2a] transition-colors">
-                  <span>🔄 Update Existing App</span>
-                  <span className="text-sm text-gray-400">→</span>
-                </button>
-              </div>
             </div>
           </div>
         </>
