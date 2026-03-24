@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Home, AppWindow, BarChart3, Inbox, RefreshCw, Settings, Sparkles, ChevronLeft, ChevronRight, Rocket } from 'lucide-react';
+import { Home, AppWindow, BarChart3, Inbox, RefreshCw, Settings, Sparkles, ChevronLeft, ChevronRight, Rocket, FileCheck } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
 const Sidebar = ({ collapsed, setCollapsed }) => {
@@ -12,11 +12,12 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
 
   const navItems = [
     { path: '/', icon: Home, label: 'Overview' },
+    { path: '/app-review', icon: FileCheck, label: 'Review App', highlight: true },
     { path: '/apps', icon: AppWindow, label: 'Apps History' },
     { path: '/analytics', icon: BarChart3, label: 'Analytics' },
     { path: '/review', icon: Inbox, label: 'Review Queue' },
     { path: '/update', icon: RefreshCw, label: 'Update Center' },
-    { path: '/setup', icon: Rocket, label: 'Setup Wizard', highlight: true },
+    { path: '/setup', icon: Rocket, label: 'Setup Wizard' },
   ];
 
   const toggleSidebar = () => {
@@ -68,14 +69,14 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
                 isActive
                   ? item.highlight 
-                    ? 'bg-gradient-to-r from-purple-500 to-indigo-500 text-white'
+                    ? 'bg-gradient-to-r from-green-500 to-indigo-500 text-white'
                     : 'bg-indigo-500/20 text-indigo-400'
                   : item.highlight
-                    ? 'text-purple-400 hover:bg-purple-500/10'
+                    ? 'text-green-400 hover:bg-green-500/10'
                     : 'text-gray-400 hover:bg-[#1a1a1a] hover:text-white'
               } ${isCollapsed ? 'justify-center' : ''}`}
             >
-              <item.icon className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-white' : item.highlight ? 'text-purple-400' : 'group-hover:text-white'}`} />
+              <item.icon className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-white' : item.highlight ? 'text-green-400' : 'group-hover:text-white'}`} />
               {!isCollapsed && <span className="font-medium">{item.label}</span>}
               {isActive && !isCollapsed && (
                 <div className="ml-auto w-2 h-2 rounded-full bg-white animate-pulse" />
