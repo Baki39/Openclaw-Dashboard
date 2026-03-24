@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { Search, Filter, Star, Calendar, DollarSign, Download, ExternalLink } from 'lucide-react';
-import { sampleData } from '../data/store';
+import { Search, Filter, Star, Calendar, DollarSign, Download, ExternalLink, Rocket } from 'lucide-react';
 
 const AppsHistory = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [selectedApp, setSelectedApp] = useState(null);
 
-  const apps = sampleData.apps;
+  // Empty state - no real apps
+  const apps = [];
 
   const filteredApps = apps.filter((app) => {
     const matchesSearch = app.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -36,86 +36,101 @@ const AppsHistory = () => {
           <h1 className="text-3xl font-bold text-white mb-2">Apps History</h1>
           <p className="text-gray-400">All deployed apps with their current status and metrics</p>
         </div>
-        <button className="btn-primary flex items-center gap-2">
-          <ExternalLink className="w-4 h-4" />
-          Open in Play Console
-        </button>
       </div>
 
-      {/* Search and Filter */}
-      <div className="flex gap-4 mb-8">
-        <div className="relative flex-1">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-          <input
-            type="text"
-            placeholder="Search apps..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="input-field pl-12"
-          />
+      {/* Empty State */}
+      {apps.length === 0 ? (
+        <div className="text-center py-16">
+          <div className="w-24 h-24 bg-indigo-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Rocket className="w-12 h-12 text-indigo-400" />
+          </div>
+          <h2 className="text-2xl font-bold text-white mb-3">No Apps Deployed</h2>
+          <p className="text-gray-400 mb-6 max-w-md mx-auto">
+            Start your first app cycle to build and deploy your first Android app. 
+            UltraClaw will handle everything from idea to Play Store.
+          </p>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-500/20 border border-indigo-500/30 rounded-xl">
+            <span className="text-indigo-400">Type START to begin</span>
+          </div>
         </div>
-        <div className="flex gap-2">
-          {['all', 'live', 'in review', 'updating'].map((status) => (
-            <button
-              key={status}
-              onClick={() => setFilterStatus(status)}
-              className={`px-4 py-3 rounded-xl font-medium transition-all ${
-                filterStatus === status
-                  ? 'bg-indigo-500 text-white'
-                  : 'bg-[#1e1e1e] text-gray-400 hover:text-white border border-[#2a2a2a]'
-              }`}
-            >
-              {status.charAt(0).toUpperCase() + status.slice(1)}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Apps Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredApps.map((app) => (
-          <div
-            key={app.id}
-            onClick={() => setSelectedApp(app)}
-            className="bg-[#1e1e1e] rounded-2xl p-6 border border-[#2a2a2a] card-hover cursor-pointer"
-          >
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500/30 to-purple-500/30 flex items-center justify-center text-3xl">
-                  {app.icon}
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-white">{app.name}</h3>
-                  {getStatusBadge(app.status)}
-                </div>
-              </div>
+      ) : (
+        <>
+          {/* Search and Filter */}
+          <div className="flex gap-4 mb-8">
+            <div className="relative flex-1">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+              <input
+                type="text"
+                placeholder="Search apps..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="input-field pl-12"
+              />
             </div>
-
-            <div className="grid grid-cols-3 gap-4 pt-4 border-t border-[#2a2a2a]">
-              <div className="text-center">
-                <p className="text-gray-500 text-xs mb-1">Revenue</p>
-                <p className="font-bold text-green-400">${app.revenue.toFixed(0)}</p>
-              </div>
-              <div className="text-center">
-                <p className="text-gray-500 text-xs mb-1">Downloads</p>
-                <p className="font-bold text-white">{app.downloads.toLocaleString()}</p>
-              </div>
-              <div className="text-center">
-                <p className="text-gray-500 text-xs mb-1">Rating</p>
-                <div className="flex items-center justify-center gap-1">
-                  <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
-                  <span className="font-bold text-white">{app.rating}</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 mt-4 text-gray-500 text-sm">
-              <Calendar className="w-4 h-4" />
-              <span>Last updated: {app.lastUpdated}</span>
+            <div className="flex gap-2">
+              {['all', 'live', 'in review', 'updating'].map((status) => (
+                <button
+                  key={status}
+                  onClick={() => setFilterStatus(status)}
+                  className={`px-4 py-3 rounded-xl font-medium transition-all ${
+                    filterStatus === status
+                      ? 'bg-indigo-500 text-white'
+                      : 'bg-[#1e1e1e] text-gray-400 hover:text-white border border-[#2a2a2a]'
+                  }`}
+                >
+                  {status.charAt(0).toUpperCase() + status.slice(1)}
+                </button>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
+
+          {/* Apps Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredApps.map((app) => (
+              <div
+                key={app.id}
+                onClick={() => setSelectedApp(app)}
+                className="bg-[#1e1e1e] rounded-2xl p-6 border border-[#2a2a2a] card-hover cursor-pointer"
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500/30 to-purple-500/30 flex items-center justify-center text-3xl">
+                      {app.icon}
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-white">{app.name}</h3>
+                      {getStatusBadge(app.status)}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-4 pt-4 border-t border-[#2a2a2a]">
+                  <div className="text-center">
+                    <p className="text-gray-500 text-xs mb-1">Revenue</p>
+                    <p className="font-bold text-green-400">${app.revenue.toFixed(0)}</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-gray-500 text-xs mb-1">Downloads</p>
+                    <p className="font-bold text-white">{app.downloads.toLocaleString()}</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-gray-500 text-xs mb-1">Rating</p>
+                    <div className="flex items-center justify-center gap-1">
+                      <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+                      <span className="font-bold text-white">{app.rating}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 mt-4 text-gray-500 text-sm">
+                  <Calendar className="w-4 h-4" />
+                  <span>Last updated: {app.lastUpdated}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
 
       {/* App Detail Modal */}
       {selectedApp && (
