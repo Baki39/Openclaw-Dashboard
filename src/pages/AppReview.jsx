@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CheckCircle, XCircle, Edit3, Save, Code, Database, Shield, Package, ChevronRight, Send, GitBranch, ExternalLink } from 'lucide-react';
 
 const AppReview = () => {
+  const navigate = useNavigate();
   const [editMode, setEditMode] = useState(false);
   const [editPrompt, setEditPrompt] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -73,6 +75,13 @@ const AppReview = () => {
       setEditMode(false);
       setEditPrompt('');
     }, 1500);
+  };
+
+  const handleConfirmed = () => {
+    // Navigate to setup or show next step
+    alert("✅ Confirmed! Proceeding to Step 3 - Build & Deploy...");
+    // Here you would trigger Step 3 - for now just show an alert
+    // In the future, this would call the actual build/deploy workflow
   };
 
   return (
@@ -321,7 +330,10 @@ const AppReview = () => {
             Review and confirm to proceed to Step 3
           </div>
           
-          <button className="flex items-center gap-2 px-8 py-3 bg-green-500 text-white rounded-xl hover:bg-green-400 transition-colors text-lg font-medium">
+          <button 
+            onClick={handleConfirmed}
+            className="flex items-center gap-2 px-8 py-3 bg-green-500 text-white rounded-xl hover:bg-green-400 transition-colors text-lg font-medium cursor-pointer"
+          >
             <CheckCircle className="w-5 h-5" />
             <span>Confirmed</span>
           </button>
